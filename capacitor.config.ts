@@ -5,10 +5,8 @@ const config: CapacitorConfig = {
   appName: "Return Zero",
   webDir: "out",
   server: {
-    // Points to the live Next.js server on local network
-    // Change this to your production URL when deploying
-    url: "http://192.168.1.104:3000",
-    cleartext: true,
+    url: "https://return-six-theta.vercel.app",
+    cleartext: false,
   },
   android: {
     allowMixedContent: true,
