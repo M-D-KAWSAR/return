@@ -148,6 +148,7 @@ export default function ChannelsPage() {
   const [editing, setEditing] = useState<Channel | null>(null);
   const [form, setForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -232,28 +233,41 @@ export default function ChannelsPage() {
 
   const handleSave = async () => {
     setSaving(true);
+    setSaveError(null);
     const payload = {
       ...form,
-      description: form.description || undefined,
-      logoUrl: form.logoUrl || null,
+      title: form.title.trim(),
+      streamUrl: form.streamUrl.trim(),
+      description: form.description.trim() || undefined,
+      logoUrl: form.logoUrl.trim() || null,
     };
 
-    if (editing) {
-      await fetch(`/api/admin/channels/${editing.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-    } else {
-      await fetch("/api/admin/channels", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+    try {
+      const res = editing
+        ? await fetch(`/api/admin/channels/${editing.id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          })
+        : await fetch("/api/admin/channels", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setSaveError(data.error || `Error ${res.status}`);
+        setSaving(false);
+        return;
+      }
+
+      setModalOpen(false);
+      fetchData();
+    } catch {
+      setSaveError("Network error. Please try again.");
     }
     setSaving(false);
-    setModalOpen(false);
-    fetchData();
   };
 
   const handleDelete = async (id: string) => {
@@ -415,9 +429,14 @@ export default function ChannelsPage() {
                 </label>
               </div>
             </div>
-            <div className="mt-6 flex gap-3">
+            {saveError && (
+              <p className="mt-4 rounded-xl bg-red-500/10 px-4 py-2.5 text-sm text-red-400">
+                {saveError}
+              </p>
+            )}
+            <div className="mt-4 flex gap-3">
               <button
-                onClick={() => setModalOpen(false)}
+                onClick={() => { setModalOpen(false); setSaveError(null); }}
                 className="flex-1 rounded-xl glass py-2.5 text-sm text-gray-400 hover:text-white"
               >
                 Cancel
