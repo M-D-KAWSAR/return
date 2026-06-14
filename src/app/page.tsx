@@ -29,6 +29,7 @@ async function getCategories(): Promise<PublicCategory[]> {
             slug: true,
             description: true,
             logoUrl: true,
+            streamUrl: true,
             categoryId: true,
             featured: true,
           },
