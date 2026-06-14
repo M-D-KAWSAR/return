@@ -20,7 +20,10 @@ function assertStrongSecret(value: string | undefined, name: string) {
   }
 }
 
-if (process.env.NODE_ENV === "production") {
+if (
+  process.env.NODE_ENV === "production" &&
+  process.env.NEXT_PHASE !== "phase-production-build"
+) {
   assertStrongSecret(process.env.NEXTAUTH_SECRET, "NEXTAUTH_SECRET");
   assertStrongSecret(process.env.STREAM_TOKEN_SECRET, "STREAM_TOKEN_SECRET");
 }
