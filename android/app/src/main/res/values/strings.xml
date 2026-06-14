@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Return Zero</string>
+    <string name="title_activity_main">Return Zero</string>
+    <string name="package_name">com.returnzero.app</string>
+    <string name="custom_url_scheme">com.returnzero.app</string>
+</resources>

@@ -1,36 +1,52 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
+# Dependencies
 /node_modules
 /.pnp
 .pnp.js
 .yarn/install-state.gz
 
-# testing
+# Testing
 /coverage
 
-# next.js
+# Next.js
 /.next/
 /out/
 
-# production
+# Production
 /build
 
-# misc
+# Misc
 .DS_Store
 *.pem
 
-# debug
+# Debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# local env files
+# Local env files
+.env
 .env*.local
 
-# vercel
+# Vercel
 .vercel
 
-# typescript
+# TypeScript
 *.tsbuildinfo
 next-env.d.ts
+
+# Uploads (user files, not in git)
+/public/uploads/
+
+# Database (use Railway volume in production)
+/prisma/*.db
+/prisma/*.db-journal
+
+# Android build output (large, regeneratable)
+/android/.gradle/
+/android/app/build/
+/android/build/
+/android/.idea/
+/android/local.properties
+
+# Scripts
+/scripts/
