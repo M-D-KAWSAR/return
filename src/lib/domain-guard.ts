@@ -30,11 +30,6 @@ export function isDomainAllowed(request: Request): boolean {
 }
 
 export function validateAntiHotlink(request: Request): boolean {
-  const referer = request.headers.get("referer");
-  const origin = request.headers.get("origin");
-
   if (process.env.NODE_ENV === "development") return true;
-  if (!referer && !origin) return false;
-
   return isDomainAllowed(request);
 }
