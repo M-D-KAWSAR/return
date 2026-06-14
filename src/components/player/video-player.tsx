@@ -206,7 +206,7 @@ export function VideoPlayer({ channel }: VideoPlayerProps) {
     const video = videoRef.current as ExtendedVideo | null;
     const container = containerRef.current;
 
-    // iOS Safari: only <video> supports fullscreen
+    // iOS Safari: only <video> supports fullscreen via webkit API
     if (video?.webkitSupportsFullscreen) {
       if (video.webkitDisplayingFullscreen) {
         video.webkitExitFullscreen?.();
@@ -216,12 +216,17 @@ export function VideoPlayer({ channel }: VideoPlayerProps) {
       return;
     }
 
-    if (!container) return;
     if (document.fullscreenElement) {
       document.exitFullscreen();
-    } else {
-      container.requestFullscreen?.();
+      return;
     }
+
+    // Try video element first (better on Android), fall back to container
+    const target = (video?.requestFullscreen ? video : container) as HTMLElement | null;
+    target?.requestFullscreen?.().catch(() => {
+      // If video fullscreen fails, try container
+      if (target !== container) container?.requestFullscreen?.().catch(() => {});
+    });
   }, []);
 
   const toggleMute = () => {
@@ -350,7 +355,7 @@ export function VideoPlayer({ channel }: VideoPlayerProps) {
       </div>
 
       {channel && (
-        <div className="border-t border-white/10 px-4 py-3">
+        <div className="channel-info-bar border-t border-white/10 px-4 py-3">
           <div className="flex items-center gap-2">
             <span className="flex h-2 w-2 items-center">
               <span className="absolute h-2 w-2 animate-ping rounded-full bg-red-500 opacity-75" />

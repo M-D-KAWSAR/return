@@ -119,6 +119,36 @@ body {
   aspect-ratio: 16 / 9;
 }
 
+/* Fullscreen: fill entire screen, hide channel info bar */
+:fullscreen .player-container,
+:-webkit-full-screen .player-container {
+  aspect-ratio: unset !important;
+  width: 100vw !important;
+  height: 100vh !important;
+}
+
+:fullscreen .channel-info-bar,
+:-webkit-full-screen .channel-info-bar {
+  display: none !important;
+}
+
+:fullscreen .gradient-border::before,
+:-webkit-full-screen .gradient-border::before {
+  display: none;
+}
+
+/* Mobile touch: prevent double-tap zoom on player */
+.player-container {
+  touch-action: manipulation;
+}
+
+/* Safe area padding for notched phones */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .player-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
