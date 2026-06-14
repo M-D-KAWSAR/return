@@ -4,6 +4,7 @@ export interface PublicChannel {
   slug: string;
   description: string | null;
   logoUrl: string | null;
+  streamUrl: string;
   categoryId: string;
   featured: boolean;
 }

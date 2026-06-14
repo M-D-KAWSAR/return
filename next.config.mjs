@@ -31,7 +31,7 @@ const nextConfig = {
               "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://www.googletagmanager.com https://www.google-analytics.com",
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: blob: https:",
-              "media-src 'self' blob:",
+              "media-src 'self' blob: https:",
               "connect-src 'self' https:",
               "frame-src 'none'",
               "object-src 'none'",

@@ -20,6 +20,7 @@ export async function GET() {
           slug: true,
           description: true,
           logoUrl: true,
+          streamUrl: true,
           categoryId: true,
           featured: true,
         },

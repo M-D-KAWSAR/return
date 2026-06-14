@@ -21,16 +21,6 @@ type ExtendedVideo = HTMLVideoElement & {
   webkitExitFullscreen?: () => void;
 };
 
-function getSessionId(): string {
-  if (typeof window === "undefined") return "";
-  let id = localStorage.getItem("rz_session");
-  if (!id) {
-    id = crypto.randomUUID();
-    localStorage.setItem("rz_session", id);
-  }
-  return id;
-}
-
 interface VideoPlayerProps {
   channel: PublicChannel | null;
 }
@@ -74,7 +64,7 @@ export function VideoPlayer({ channel }: VideoPlayerProps) {
   }, []);
 
   const loadStream = useCallback(
-    async (channelId: string) => {
+    (streamUrl: string) => {
       const video = videoRef.current;
       if (!video) return;
 
@@ -83,21 +73,6 @@ export function VideoPlayer({ channel }: VideoPlayerProps) {
       destroyHls();
 
       try {
-        const res = await fetch("/api/stream/token", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            channelId,
-            sessionId: getSessionId(),
-          }),
-        });
-
-        if (!res.ok) {
-          throw new Error("Failed to get stream access");
-        }
-
-        const { playbackUrl } = await res.json();
-
         if (Hls.isSupported()) {
           const hls = new Hls({
             enableWorker: true,
@@ -107,7 +82,7 @@ export function VideoPlayer({ channel }: VideoPlayerProps) {
 
           hlsRef.current = hls;
 
-          hls.loadSource(playbackUrl);
+          hls.loadSource(streamUrl);
           hls.attachMedia(video);
 
           hls.on(Hls.Events.MANIFEST_PARSED, (_event, data) => {
@@ -132,7 +107,7 @@ export function VideoPlayer({ channel }: VideoPlayerProps) {
             }
           });
         } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-          video.src = playbackUrl;
+          video.src = streamUrl;
           video.addEventListener("loadedmetadata", () => {
             setLoading(false);
             video.play().catch(() => {});
@@ -150,7 +125,7 @@ export function VideoPlayer({ channel }: VideoPlayerProps) {
 
   useEffect(() => {
     if (channel) {
-      loadStream(channel.id);
+      loadStream(channel.streamUrl);
     } else {
       destroyHls();
       if (videoRef.current) {
@@ -249,7 +224,7 @@ export function VideoPlayer({ channel }: VideoPlayerProps) {
             <p className="text-sm text-gray-300">{error}</p>
             {channel && (
               <button
-                onClick={() => loadStream(channel.id)}
+                onClick={() => loadStream(channel.streamUrl)}
                 className="mt-2 rounded-lg bg-purple-600 px-4 py-2 text-sm hover:bg-purple-500"
               >
                 Retry
