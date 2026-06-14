@@ -10,11 +10,13 @@ import {
   LogOut,
   ExternalLink,
   Megaphone,
+  BarChart2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/analytics", label: "Analytics", icon: BarChart2 },
   { href: "/admin/categories", label: "Categories", icon: FolderOpen },
   { href: "/admin/channels", label: "Channels", icon: Tv },
   { href: "/admin/ads", label: "Ads", icon: Megaphone },

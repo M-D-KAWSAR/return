@@ -43,6 +43,7 @@ model Channel {
   featured    Boolean  @default(false)
   categoryId  String
   category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  views       ChannelView[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -55,8 +56,24 @@ model VisitorSession {
   id        String   @id @default(cuid())
   sessionId String   @unique
   lastSeen  DateTime @default(now())
+  createdAt DateTime @default(now())
 
   @@index([lastSeen])
+  @@index([createdAt])
+}
+
+model ChannelView {
+  id           String   @id @default(cuid())
+  channelId    String
+  channel      Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  sessionId    String
+  watchSeconds Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([channelId])
+  @@index([createdAt])
+  @@index([sessionId])
 }
 
 model Ad {

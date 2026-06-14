@@ -21,6 +21,16 @@ type ExtendedVideo = HTMLVideoElement & {
   webkitExitFullscreen?: () => void;
 };
 
+function getSessionId(): string {
+  if (typeof window === "undefined") return "";
+  let id = localStorage.getItem("rz_session");
+  if (!id) {
+    id = crypto.randomUUID();
+    localStorage.setItem("rz_session", id);
+  }
+  return id;
+}
+
 interface VideoPlayerProps {
   channel: PublicChannel | null;
 }
@@ -39,6 +49,9 @@ export function VideoPlayer({ channel }: VideoPlayerProps) {
   const [showQualityMenu, setShowQualityMenu] = useState(false);
   const [showControls, setShowControls] = useState(false);
   const controlsTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const viewIdRef = useRef<string | null>(null);
+  const watchStartRef = useRef<number>(0);
+  const heartbeatRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const revealControls = useCallback(() => {
     setShowControls(true);
@@ -56,21 +69,53 @@ export function VideoPlayer({ channel }: VideoPlayerProps) {
     };
   }, []);
 
+  const stopHeartbeat = useCallback(() => {
+    if (heartbeatRef.current) {
+      clearInterval(heartbeatRef.current);
+      heartbeatRef.current = null;
+    }
+  }, []);
+
   const destroyHls = useCallback(() => {
     if (hlsRef.current) {
       hlsRef.current.destroy();
       hlsRef.current = null;
     }
-  }, []);
+    stopHeartbeat();
+  }, [stopHeartbeat]);
 
   const loadStream = useCallback(
-    (streamUrl: string) => {
+    (streamUrl: string, channelId: string) => {
       const video = videoRef.current;
       if (!video) return;
 
       setLoading(true);
       setError(null);
       destroyHls();
+      viewIdRef.current = null;
+
+      // Record view and start heartbeat after stream loads
+      const sessionId = getSessionId();
+      fetch("/api/analytics/view", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ channelId, sessionId }),
+      })
+        .then((r) => r.json())
+        .then(({ viewId }) => {
+          if (!viewId) return;
+          viewIdRef.current = viewId;
+          watchStartRef.current = Date.now();
+          heartbeatRef.current = setInterval(() => {
+            const seconds = Math.floor((Date.now() - watchStartRef.current) / 1000);
+            fetch("/api/analytics/heartbeat", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ viewId, watchSeconds: seconds }),
+            }).catch(() => {});
+          }, 30_000);
+        })
+        .catch(() => {});
 
       try {
         if (Hls.isSupported()) {
@@ -125,7 +170,7 @@ export function VideoPlayer({ channel }: VideoPlayerProps) {
 
   useEffect(() => {
     if (channel) {
-      loadStream(channel.streamUrl);
+      loadStream(channel.streamUrl, channel.id);
     } else {
       destroyHls();
       if (videoRef.current) {
@@ -224,7 +269,7 @@ export function VideoPlayer({ channel }: VideoPlayerProps) {
             <p className="text-sm text-gray-300">{error}</p>
             {channel && (
               <button
-                onClick={() => loadStream(channel.streamUrl)}
+                onClick={() => loadStream(channel.streamUrl, channel.id)}
                 className="mt-2 rounded-lg bg-purple-600 px-4 py-2 text-sm hover:bg-purple-500"
               >
                 Retry
