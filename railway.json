@@ -4,7 +4,7 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "npx prisma db push && npx tsx prisma/seed.ts || true && next start -p ${PORT:-3000}",
+    "startCommand": "npx prisma db push && npx tsx prisma/seed.ts || true && cp -r .next/static .next/standalone/.next/static && cp -r public .next/standalone/public && node .next/standalone/server.js",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 3
   }
