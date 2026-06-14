@@ -66,4 +66,4 @@ export default async function HomePage() {
   return <HomeClient initialCategories={categories} ads={ads} />;
 }
 
-export const revalidate = 30;
+export const dynamic = "force-dynamic";

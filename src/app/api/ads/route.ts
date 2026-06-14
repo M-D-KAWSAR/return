@@ -17,4 +17,4 @@ export async function GET() {
   return NextResponse.json(ads);
 }
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
