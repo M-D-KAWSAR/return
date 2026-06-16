@@ -293,7 +293,7 @@ export function VideoPlayer({ channel }: VideoPlayerProps) {
 
         {!channel && !loading && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-purple-900/30 to-blue-900/30">
-            <div className="text-6xl font-bold gradient-text opacity-30">RZ</div>
+            <div className="text-6xl font-bold gradient-text opacity-30">SC</div>
             <p className="mt-2 text-sm text-gray-500">Select a channel to start watching</p>
           </div>
         )}

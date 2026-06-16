@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Return",
+  title: "TheShayanCup Admin",
   robots: { index: false, follow: false },
 };
 
