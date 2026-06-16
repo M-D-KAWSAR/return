@@ -376,6 +376,21 @@ export function VideoPlayer({ channel }: VideoPlayerProps) {
           )}
         </div>
       )}
+
+      {error && (
+        <div className="border-t border-white/10 p-4">
+          <p className="mb-3 text-center text-sm text-yellow-400">
+            ⚠️ যদি স্ট্রিম কাজ না করে তাহলে এটা চেষ্টা করুন 👇
+          </p>
+          <iframe
+            src="https://sportzfytvlive.xyz/"
+            className="w-full rounded-xl border border-white/10"
+            style={{ height: "480px" }}
+            allow="autoplay; fullscreen; encrypted-media"
+            allowFullScreen
+          />
+        </div>
+      )}
     </div>
   );
 }
