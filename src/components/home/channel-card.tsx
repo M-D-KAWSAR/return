@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Play, Radio } from "lucide-react";
+import { Radio } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { PublicChannel } from "@/types";
 
@@ -16,47 +16,50 @@ export function ChannelCard({ channel, isActive, onClick }: ChannelCardProps) {
     <button
       onClick={onClick}
       className={cn(
-        "group relative flex w-full flex-col overflow-hidden rounded-2xl glass text-left transition-all duration-300 active:scale-[0.98] [@media(hover:hover)]:hover:scale-[1.02] hover:shadow-lg hover:shadow-purple-500/10",
-        isActive && "ring-2 ring-purple-500/60 shadow-lg shadow-purple-500/20 animate-pulse-glow"
+        "group relative flex w-full flex-col items-center gap-2 rounded-xl p-3 text-center transition-all duration-200 active:scale-95",
+        isActive
+          ? "bg-purple-500/20 ring-1 ring-purple-500/60 shadow-md shadow-purple-500/20"
+          : "glass hover:bg-white/8 hover:ring-1 hover:ring-white/20"
       )}
     >
-      <div className="relative aspect-video w-full overflow-hidden bg-gradient-to-br from-purple-900/20 to-blue-900/20">
+      {/* Logo square */}
+      <div
+        className={cn(
+          "relative flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-xl transition-transform duration-200 group-hover:scale-105",
+          isActive ? "bg-purple-500/20" : "bg-white/8"
+        )}
+      >
         {channel.logoUrl ? (
           <Image
             src={channel.logoUrl}
             alt={channel.title}
             fill
-            className="object-contain p-4 transition-transform duration-300 group-hover:scale-105"
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            className="object-contain p-1.5"
+            sizes="56px"
+            unoptimized
           />
         ) : (
-          <div className="flex h-full items-center justify-center">
-            <Radio className="h-12 w-12 text-purple-400/40" />
-          </div>
-        )}
-
-        <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-purple-500/80 backdrop-blur-sm">
-            <Play className="h-5 w-5 fill-white text-white" />
-          </div>
-        </div>
-
-        {isActive && (
-          <div className="absolute left-2 top-2 flex items-center gap-1 rounded-full bg-red-500/90 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white" />
-            Live
-          </div>
+          <Radio className={cn("h-6 w-6", isActive ? "text-purple-400" : "text-gray-500")} />
         )}
       </div>
 
-      <div className="p-3">
-        <h3 className="truncate text-sm font-semibold text-white">{channel.title}</h3>
-        {channel.description && (
-          <p className="mt-0.5 line-clamp-2 text-xs text-gray-500">
-            {channel.description}
-          </p>
+      {/* Live badge */}
+      {isActive && (
+        <span className="absolute right-1.5 top-1.5 flex items-center gap-0.5 rounded-full bg-red-500 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-white">
+          <span className="h-1 w-1 animate-pulse rounded-full bg-white" />
+          Live
+        </span>
+      )}
+
+      {/* Title */}
+      <p
+        className={cn(
+          "w-full truncate text-[11px] font-medium leading-tight",
+          isActive ? "text-purple-300" : "text-gray-300 group-hover:text-white"
         )}
-      </div>
+      >
+        {channel.title}
+      </p>
     </button>
   );
 }
