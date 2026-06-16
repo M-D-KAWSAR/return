@@ -118,7 +118,6 @@ export function VideoPlayer({ channel }: VideoPlayerProps) {
         .catch(() => {});
 
       const WORKER = "https://wandering-hat-60a6.kawsar22205101309.workers.dev";
-      const proxiedUrl = `${WORKER}?url=${encodeURIComponent(streamUrl)}`;
 
       try {
         if (Hls.isSupported()) {
@@ -126,11 +125,17 @@ export function VideoPlayer({ channel }: VideoPlayerProps) {
             enableWorker: true,
             lowLatencyMode: true,
             backBufferLength: 90,
+            fetchSetup: (context, initParams) => {
+              const url = context.url.startsWith(WORKER)
+                ? context.url
+                : `${WORKER}?url=${encodeURIComponent(context.url)}`;
+              return new Request(url, initParams);
+            },
           });
 
           hlsRef.current = hls;
 
-          hls.loadSource(proxiedUrl);
+          hls.loadSource(streamUrl);
           hls.attachMedia(video);
 
           hls.on(Hls.Events.MANIFEST_PARSED, (_event, data) => {
@@ -155,7 +160,7 @@ export function VideoPlayer({ channel }: VideoPlayerProps) {
             }
           });
         } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-          video.src = proxiedUrl;
+          video.src = `${WORKER}?url=${encodeURIComponent(streamUrl)}`;
           video.addEventListener("loadedmetadata", () => {
             setLoading(false);
             video.play().catch(() => {});
