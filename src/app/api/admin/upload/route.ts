@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
+import { put } from "@vercel/blob";
 import { requireAdmin } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
@@ -14,7 +13,6 @@ const ALLOWED_TYPES: Record<string, string> = {
 
 const MAX_SIZE = 2 * 1024 * 1024;
 
-// Magic bytes for each MIME type
 const MAGIC_BYTES: Record<string, number[][]> = {
   "image/jpeg": [[0xff, 0xd8, 0xff]],
   "image/png": [[0x89, 0x50, 0x4e, 0x47]],
@@ -25,9 +23,7 @@ const MAGIC_BYTES: Record<string, number[][]> = {
 function validateMagicBytes(buffer: Buffer, mimeType: string): boolean {
   const signatures = MAGIC_BYTES[mimeType];
   if (!signatures) return false;
-  return signatures.some((sig) =>
-    sig.every((byte, i) => buffer[i] === byte)
-  );
+  return signatures.some((sig) => sig.every((byte, i) => buffer[i] === byte));
 }
 
 export async function POST(request: NextRequest) {
@@ -45,7 +41,7 @@ export async function POST(request: NextRequest) {
 
   const ext = ALLOWED_TYPES[file.type];
   if (!ext) {
-    return NextResponse.json({ error: "Invalid file type" }, { status: 400 });
+    return NextResponse.json({ error: "Only JPG, PNG, WebP, GIF allowed" }, { status: 400 });
   }
 
   if (file.size > MAX_SIZE) {
@@ -55,15 +51,15 @@ export async function POST(request: NextRequest) {
   const buffer = Buffer.from(await file.arrayBuffer());
 
   if (!validateMagicBytes(buffer, file.type)) {
-    return NextResponse.json({ error: "File content does not match declared type" }, { status: 400 });
+    return NextResponse.json({ error: "Invalid file content" }, { status: 400 });
   }
 
-  // Safe filename — no user-controlled characters
-  const filename = `${Date.now()}-${crypto.randomUUID()}.${ext}`;
-  const uploadDir = path.join(process.cwd(), "public", "uploads", "logos");
+  const filename = `logos/${Date.now()}-${crypto.randomUUID()}.${ext}`;
 
-  await mkdir(uploadDir, { recursive: true });
-  await writeFile(path.join(uploadDir, filename), buffer);
+  const blob = await put(filename, buffer, {
+    access: "public",
+    contentType: file.type,
+  });
 
-  return NextResponse.json({ url: `/uploads/logos/${filename}` });
+  return NextResponse.json({ url: blob.url });
 }

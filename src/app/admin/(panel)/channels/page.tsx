@@ -377,16 +377,23 @@ export default function ChannelsPage() {
               </div>
               <div>
                 <label className="mb-1 block text-sm text-gray-400">Logo</label>
+                {/* URL input */}
+                <input
+                  value={form.logoUrl}
+                  onChange={(e) => setForm({ ...form, logoUrl: e.target.value })}
+                  className="mb-2 w-full rounded-xl glass px-4 py-2.5 text-sm text-white outline-none"
+                  placeholder="https://example.com/logo.png (or upload below)"
+                />
                 <div className="flex items-center gap-3">
                   {form.logoUrl && (
-                    <div className="relative h-12 w-12 overflow-hidden rounded-lg bg-white/5">
-                      <Image src={form.logoUrl} alt="" fill className="object-contain p-1" />
+                    <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-white/5">
+                      <Image src={form.logoUrl} alt="" fill className="object-contain p-1" unoptimized />
                     </div>
                   )}
                   <input
                     ref={fileRef}
                     type="file"
-                    accept="image/*"
+                    accept="image/jpeg,image/png,image/webp,image/gif"
                     className="hidden"
                     onChange={(e) => {
                       const file = e.target.files?.[0];
@@ -397,15 +404,24 @@ export default function ChannelsPage() {
                     type="button"
                     onClick={() => fileRef.current?.click()}
                     disabled={uploading}
-                    className="flex items-center gap-2 rounded-xl glass px-4 py-2 text-sm text-gray-300 hover:text-white"
+                    className="flex items-center gap-2 rounded-xl glass px-4 py-2 text-sm text-gray-300 hover:text-white disabled:opacity-50"
                   >
                     {uploading ? (
                       <Loader2 className="h-4 w-4 animate-spin" />
                     ) : (
                       <Upload className="h-4 w-4" />
                     )}
-                    Upload Logo
+                    {uploading ? "Uploading..." : "Upload File"}
                   </button>
+                  {form.logoUrl && (
+                    <button
+                      type="button"
+                      onClick={() => setForm({ ...form, logoUrl: "" })}
+                      className="text-xs text-red-400 hover:text-red-300"
+                    >
+                      Remove
+                    </button>
+                  )}
                 </div>
               </div>
               <div className="flex flex-wrap gap-4">
