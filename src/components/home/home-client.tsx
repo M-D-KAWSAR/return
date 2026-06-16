@@ -6,6 +6,7 @@ import { VideoPlayer } from "@/components/player/video-player";
 import { CategorySection } from "@/components/home/category-section";
 import { AdBanner } from "@/components/home/ad-banner";
 import { InstallBanner } from "@/components/home/install-banner";
+import { AppPopup } from "@/components/home/app-popup";
 import type { PublicCategory, PublicChannel } from "@/types";
 
 interface PublicAd {
@@ -71,6 +72,7 @@ export function HomeClient({ initialCategories, ads }: HomeClientProps) {
 
   return (
     <div className="min-h-screen">
+      <AppPopup />
       <Header
         categories={headerCategories}
         onSearch={setSearchQuery}
