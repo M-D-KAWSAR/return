@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Download, X, Smartphone, Zap } from "lucide-react";
+import { Download, X, Smartphone } from "lucide-react";
 
 export function AppPopup() {
   const [visible, setVisible] = useState(false);
