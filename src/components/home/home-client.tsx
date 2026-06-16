@@ -115,7 +115,7 @@ export function HomeClient({ initialCategories, ads }: HomeClientProps) {
       </main>
 
       <footer className="mt-16 border-t border-white/5 py-8 text-center text-sm text-gray-600">
-        <p>&copy; {new Date().getFullYear()} Return Zero. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} TheShayanCup. All rights reserved.</p>
       </footer>
     </div>
   );

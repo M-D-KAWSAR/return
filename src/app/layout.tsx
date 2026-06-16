@@ -8,24 +8,24 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-geist-sans" });
 
 export const metadata: Metadata = {
   title: {
-    default: "Return Zero — Premium IPTV Streaming",
-    template: "%s | Return Zero",
+    default: "TheShayanCup — Premium IPTV Streaming",
+    template: "%s | TheShayanCup",
   },
   description:
-    "Watch live TV channels with Return Zero — a modern, fast IPTV streaming platform with premium quality and seamless playback.",
-  keywords: ["IPTV", "live TV", "streaming", "Return Zero", "HLS"],
-  authors: [{ name: "Return Zero" }],
+    "Watch live TV channels with TheShayanCup — a modern, fast IPTV streaming platform with premium quality and seamless playback.",
+  keywords: ["IPTV", "live TV", "streaming", "TheShayanCup", "HLS"],
+  authors: [{ name: "TheShayanCup" }],
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "Return Zero",
+    title: "TheShayanCup",
   },
   openGraph: {
-    title: "Return Zero — Premium IPTV Streaming",
+    title: "TheShayanCup — Premium IPTV Streaming",
     description: "Modern IPTV streaming platform with live channels",
     type: "website",
-    siteName: "Return Zero",
+    siteName: "TheShayanCup",
   },
   robots: {
     index: true,

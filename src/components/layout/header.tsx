@@ -48,7 +48,7 @@ export function Header({
               RZ
             </div>
             <span className="hidden text-lg font-bold gradient-text sm:block">
-              Return Zero
+              TheShayanCup
             </span>
           </Link>
 

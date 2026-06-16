@@ -80,7 +80,7 @@ export function InstallBanner() {
           <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-600 to-blue-600 shadow-lg shadow-purple-500/25">
             <Image
               src="/icons/icon-72.png"
-              alt="Return Zero"
+              alt="TheShayanCup"
               width={40}
               height={40}
               className="rounded-xl"
@@ -89,7 +89,7 @@ export function InstallBanner() {
           </div>
 
           <div className="min-w-0 flex-1">
-            <p className="font-bold text-white">Return Zero App</p>
+            <p className="font-bold text-white">TheShayanCup App</p>
             <p className="text-sm text-gray-400">
               অ্যাপ ইনস্টল করুন — কোনো বাফারিং নেই!{" "}
               <span className="text-gray-500">(Install for buffer-free streaming)</span>

@@ -31,11 +31,11 @@ export function AdminSidebar({ onClose }: { onClose?: () => void }) {
       <div className="border-b border-white/10 p-6">
         <Link href="/admin" className="flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-blue-500 text-xs font-bold text-white">
-            RZ
+            SC
           </div>
           <div>
-            <p className="text-sm font-bold gradient-text">Return</p>
-            <p className="text-xs text-gray-500">Portal</p>
+            <p className="text-sm font-bold gradient-text">TheShayanCup</p>
+            <p className="text-xs text-gray-500">Admin Portal</p>
           </div>
         </Link>
       </div>
