@@ -91,7 +91,8 @@ export function InstallBanner() {
           <div className="min-w-0 flex-1">
             <p className="font-bold text-white">Return Zero App</p>
             <p className="text-sm text-gray-400">
-              Install on your phone for the best experience
+              অ্যাপ ইনস্টল করুন — কোনো বাফারিং নেই!{" "}
+              <span className="text-gray-500">(Install for buffer-free streaming)</span>
             </p>
           </div>
         </div>
