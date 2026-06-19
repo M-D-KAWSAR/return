@@ -28,7 +28,7 @@ export async function GET() {
   let category = await prisma.category.findFirst({ where: { slug: "fifa-wc-2026" } });
   if (!category) {
     category = await prisma.category.create({
-      data: { name: "FIFA WC 2026", slug: "fifa-wc-2026", order: 0 },
+      data: { name: "FIFA WC 2026", slug: "fifa-wc-2026", sortOrder: 0 },
     });
   }
 
@@ -45,8 +45,7 @@ export async function GET() {
           streamUrl: ch.streamUrl,
           logoUrl: LOGO,
           categoryId: category.id,
-          order: i,
-          active: true,
+          enabled: true,
           featured: false,
         },
       });
