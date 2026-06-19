@@ -11,6 +11,7 @@ import {
   ExternalLink,
   Megaphone,
   BarChart2,
+  Upload,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -19,6 +20,7 @@ const navItems = [
   { href: "/admin/analytics", label: "Analytics", icon: BarChart2 },
   { href: "/admin/categories", label: "Categories", icon: FolderOpen },
   { href: "/admin/channels", label: "Channels", icon: Tv },
+  { href: "/admin/import", label: "Import M3U", icon: Upload },
   { href: "/admin/ads", label: "Ads", icon: Megaphone },
 ];
 
