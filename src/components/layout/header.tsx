@@ -46,8 +46,9 @@ export function Header({
           <Link href="/" className="flex shrink-0 items-center gap-1">
             <span className="text-xl font-black tracking-tight leading-none">
               <span className="text-blue-400">P</span>
-              <span className="football-drop text-base">⚽</span>
+              <span className="football-drop text-base" style={{ animationDelay: "0s, 0.7s" }}>⚽</span>
               <span className="text-white">NK</span>
+              <span className="football-drop text-base" style={{ animationDelay: "0.15s, 0.85s" }}>⚽</span>
               <span className="text-orange-400">Li</span>
               <span className="text-white">Ma</span>
             </span>
