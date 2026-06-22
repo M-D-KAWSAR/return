@@ -44,10 +44,10 @@ export function Header({
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between gap-4">
           <Link href="/" className="flex shrink-0 items-center gap-1">
-            <span className="text-xl font-black tracking-tight">
-              <span className="text-blue-400">Po</span>
-              <span className="text-white">N</span>
-              <span className="text-blue-400">Ko</span>
+            <span className="text-xl font-black tracking-tight leading-none">
+              <span className="text-blue-400">P</span>
+              <span className="football-drop text-base">⚽</span>
+              <span className="text-white">NK</span>
               <span className="text-orange-400">Li</span>
               <span className="text-white">Ma</span>
             </span>
