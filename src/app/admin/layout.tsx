@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Ponklima TV Admin",
+  title: "Ponkolima (IPTV) Admin",
   robots: { index: false, follow: false },
 };
 

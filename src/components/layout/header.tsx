@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Search, Menu, X } from "lucide-react";
-import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { VisitorCounter } from "./visitor-counter";
 
@@ -44,15 +43,15 @@ export function Header({
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between gap-4">
-          <Link href="/" className="flex shrink-0 items-center">
-            <Image
-              src="/logo.png"
-              alt="Ponklima TV"
-              width={140}
-              height={56}
-              className="h-10 w-auto object-contain"
-              priority
-            />
+          <Link href="/" className="flex shrink-0 items-center gap-1">
+            <span className="text-xl font-black tracking-tight">
+              <span className="text-blue-400">Po</span>
+              <span className="text-white">N</span>
+              <span className="text-blue-400">Ko</span>
+              <span className="text-orange-400">Li</span>
+              <span className="text-white">Ma</span>
+            </span>
+            <span className="text-xs font-semibold text-gray-400">(IPTV)</span>
           </Link>
 
           <nav className="hidden items-center gap-1 md:flex">

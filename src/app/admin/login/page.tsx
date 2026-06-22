@@ -40,7 +40,7 @@ export default function AdminLoginPage() {
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500 to-blue-500 shadow-lg shadow-purple-500/25">
             <Shield className="h-8 w-8 text-white" />
           </div>
-          <h1 className="text-2xl font-bold gradient-text">Ponklima TV</h1>
+          <h1 className="text-2xl font-bold gradient-text">Ponkolima (IPTV)</h1>
           <p className="mt-1 text-sm text-gray-500">Portal Login</p>
         </div>
 

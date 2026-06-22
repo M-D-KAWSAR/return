@@ -1,6 +1,6 @@
 {
-  "name": "Ponklima TV — Live TV",
-  "short_name": "Ponklima TV",
+  "name": "Ponkolima (IPTV) — Live TV",
+  "short_name": "Ponkolima (IPTV)",
   "description": "Watch live TV channels anytime, anywhere.",
   "start_url": "/",
   "display": "standalone",

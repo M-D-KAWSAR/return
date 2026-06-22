@@ -115,7 +115,7 @@ export function HomeClient({ initialCategories, ads }: HomeClientProps) {
       </main>
 
       <footer className="mt-16 border-t border-white/5 py-8 text-center text-sm text-gray-600">
-        <p>&copy; {new Date().getFullYear()} Ponklima TV. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Ponkolima (IPTV). All rights reserved.</p>
       </footer>
     </div>
   );

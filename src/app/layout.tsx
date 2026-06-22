@@ -8,24 +8,24 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-geist-sans" });
 
 export const metadata: Metadata = {
   title: {
-    default: "Ponklima TV — Premium IPTV Streaming",
-    template: "%s | Ponklima TV",
+    default: "Ponkolima (IPTV) — Premium IPTV Streaming",
+    template: "%s | Ponkolima (IPTV)",
   },
   description:
-    "Watch live TV channels with Ponklima TV — a modern, fast IPTV streaming platform with premium quality and seamless playback.",
-  keywords: ["IPTV", "live TV", "streaming", "Ponklima TV", "HLS"],
-  authors: [{ name: "Ponklima TV" }],
+    "Watch live TV channels with Ponkolima (IPTV) — a modern, fast IPTV streaming platform with premium quality and seamless playback.",
+  keywords: ["IPTV", "live TV", "streaming", "Ponkolima (IPTV)", "HLS"],
+  authors: [{ name: "Ponkolima (IPTV)" }],
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "Ponklima TV",
+    title: "Ponkolima (IPTV)",
   },
   openGraph: {
-    title: "Ponklima TV — Premium IPTV Streaming",
+    title: "Ponkolima (IPTV) — Premium IPTV Streaming",
     description: "Modern IPTV streaming platform with live channels",
     type: "website",
-    siteName: "Ponklima TV",
+    siteName: "Ponkolima (IPTV)",
   },
   robots: {
     index: true,
