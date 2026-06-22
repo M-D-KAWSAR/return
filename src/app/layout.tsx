@@ -8,24 +8,24 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-geist-sans" });
 
 export const metadata: Metadata = {
   title: {
-    default: "TheShayanCup — Premium IPTV Streaming",
-    template: "%s | TheShayanCup",
+    default: "Ponklima TV — Premium IPTV Streaming",
+    template: "%s | Ponklima TV",
   },
   description:
-    "Watch live TV channels with TheShayanCup — a modern, fast IPTV streaming platform with premium quality and seamless playback.",
-  keywords: ["IPTV", "live TV", "streaming", "TheShayanCup", "HLS"],
-  authors: [{ name: "TheShayanCup" }],
+    "Watch live TV channels with Ponklima TV — a modern, fast IPTV streaming platform with premium quality and seamless playback.",
+  keywords: ["IPTV", "live TV", "streaming", "Ponklima TV", "HLS"],
+  authors: [{ name: "Ponklima TV" }],
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "TheShayanCup",
+    title: "Ponklima TV",
   },
   openGraph: {
-    title: "TheShayanCup — Premium IPTV Streaming",
+    title: "Ponklima TV — Premium IPTV Streaming",
     description: "Modern IPTV streaming platform with live channels",
     type: "website",
-    siteName: "TheShayanCup",
+    siteName: "Ponklima TV",
   },
   robots: {
     index: true,

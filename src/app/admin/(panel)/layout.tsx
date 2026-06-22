@@ -40,7 +40,7 @@ export default function AdminPanelLayout({
           >
             <Menu className="h-5 w-5" />
           </button>
-          <span className="text-sm font-bold gradient-text">TheShayanCup Admin</span>
+          <span className="text-sm font-bold gradient-text">Ponklima TV Admin</span>
         </div>
 
         <main className="flex-1 overflow-auto p-4 md:p-6 lg:p-8">{children}</main>

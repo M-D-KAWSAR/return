@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import {
@@ -34,13 +35,8 @@ export function AdminSidebar({ onClose }: { onClose?: () => void }) {
     <aside className="flex w-64 shrink-0 flex-col border-r border-white/10 bg-black/80 md:bg-black/20">
       <div className="border-b border-white/10 p-6">
         <Link href="/admin" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-blue-500 text-xs font-bold text-white">
-            SC
-          </div>
-          <div>
-            <p className="text-sm font-bold gradient-text">TheShayanCup</p>
-            <p className="text-xs text-gray-500">Admin Portal</p>
-          </div>
+          <Image src="/logo.png" alt="Ponklima TV" width={120} height={48} className="h-8 w-auto object-contain" />
+          <p className="text-xs text-gray-500">Admin Portal</p>
         </Link>
       </div>
 

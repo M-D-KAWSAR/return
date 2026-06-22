@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "TheShayanCup Admin",
+  title: "Ponklima TV Admin",
   robots: { index: false, follow: false },
 };
 

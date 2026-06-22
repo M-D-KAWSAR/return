@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Search, Menu, X } from "lucide-react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { VisitorCounter } from "./visitor-counter";
 
@@ -43,13 +44,15 @@ export function Header({
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between gap-4">
-          <Link href="/" className="flex shrink-0 items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-blue-500 text-sm font-bold text-white shadow-lg shadow-purple-500/25">
-              SC
-            </div>
-            <span className="hidden text-lg font-bold gradient-text sm:block">
-              TheShayanCup
-            </span>
+          <Link href="/" className="flex shrink-0 items-center">
+            <Image
+              src="/logo.png"
+              alt="Ponklima TV"
+              width={140}
+              height={56}
+              className="h-10 w-auto object-contain"
+              priority
+            />
           </Link>
 
           <nav className="hidden items-center gap-1 md:flex">
