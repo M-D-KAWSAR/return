@@ -52,6 +52,7 @@ export function VideoPlayer({ channel }: VideoPlayerProps) {
   const viewIdRef = useRef<string | null>(null);
   const watchStartRef = useRef<number>(0);
   const heartbeatRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const pendingHlsRef = useRef<Hls | null>(null);
 
   const revealControls = useCallback(() => {
     setShowControls(true);
@@ -77,6 +78,10 @@ export function VideoPlayer({ channel }: VideoPlayerProps) {
   }, []);
 
   const destroyHls = useCallback(() => {
+    if (pendingHlsRef.current) {
+      pendingHlsRef.current.destroy();
+      pendingHlsRef.current = null;
+    }
     if (hlsRef.current) {
       hlsRef.current.destroy();
       hlsRef.current = null;
@@ -89,12 +94,19 @@ export function VideoPlayer({ channel }: VideoPlayerProps) {
       const video = videoRef.current;
       if (!video) return;
 
-      setLoading(true);
       setError(null);
-      destroyHls();
       viewIdRef.current = null;
 
-      // Record view and start heartbeat after stream loads
+      // Cancel any in-progress preload
+      if (pendingHlsRef.current) {
+        pendingHlsRef.current.destroy();
+        pendingHlsRef.current = null;
+      }
+
+      // Show loading only if nothing is currently playing
+      const hasCurrentVideo = video.readyState > 1 && !video.paused;
+      if (!hasCurrentVideo) setLoading(true);
+
       const sessionId = getSessionId();
       fetch("/api/analytics/view", {
         method: "POST",
@@ -121,10 +133,14 @@ export function VideoPlayer({ channel }: VideoPlayerProps) {
 
       try {
         if (Hls.isSupported()) {
-          const hls = new Hls({
+          // Load manifest in background BEFORE destroying old stream
+          const newHls = new Hls({
             enableWorker: true,
             lowLatencyMode: true,
-            backBufferLength: 90,
+            maxBufferLength: 8,
+            maxMaxBufferLength: 20,
+            backBufferLength: 15,
+            startLevel: -1,
             fetchSetup: (context, initParams) => {
               const url = context.url.startsWith(WORKER)
                 ? context.url
@@ -133,13 +149,16 @@ export function VideoPlayer({ channel }: VideoPlayerProps) {
             },
           });
 
-          hlsRef.current = hls;
+          pendingHlsRef.current = newHls;
+          newHls.loadSource(streamUrl);
 
-          hls.loadSource(streamUrl);
-          hls.attachMedia(video);
+          newHls.on(Hls.Events.MANIFEST_PARSED, (_event, data) => {
+            // Manifest ready — now swap to new stream instantly
+            destroyHls();
+            hlsRef.current = newHls;
+            pendingHlsRef.current = null;
+            newHls.attachMedia(video);
 
-          hls.on(Hls.Events.MANIFEST_PARSED, (_event, data) => {
-            setLoading(false);
             const levels = data.levels.map((level, index) => ({
               index,
               label: level.height
@@ -150,16 +169,21 @@ export function VideoPlayer({ channel }: VideoPlayerProps) {
             }));
             setQualities([{ index: -1, label: "Auto" }, ...levels]);
             setCurrentQuality(-1);
+            setLoading(false);
             video.play().catch(() => {});
           });
 
-          hls.on(Hls.Events.ERROR, (_event, data) => {
+          newHls.on(Hls.Events.ERROR, (_event, data) => {
             if (data.fatal) {
+              newHls.destroy();
+              if (pendingHlsRef.current === newHls) pendingHlsRef.current = null;
               setError("Stream playback failed. Please try again.");
               setLoading(false);
             }
           });
         } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+          destroyHls();
+          setLoading(true);
           video.src = `${WORKER}?url=${encodeURIComponent(streamUrl)}`;
           video.addEventListener("loadedmetadata", () => {
             setLoading(false);
