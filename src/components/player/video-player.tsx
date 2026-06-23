@@ -153,10 +153,10 @@ export function VideoPlayer({ channel }: VideoPlayerProps) {
           newHls.loadSource(streamUrl);
 
           newHls.on(Hls.Events.MANIFEST_PARSED, (_event, data) => {
-            // Manifest ready — now swap to new stream instantly
+            // Remove from pending BEFORE destroyHls so it doesn't get destroyed
+            pendingHlsRef.current = null;
             destroyHls();
             hlsRef.current = newHls;
-            pendingHlsRef.current = null;
             newHls.attachMedia(video);
 
             const levels = data.levels.map((level, index) => ({
